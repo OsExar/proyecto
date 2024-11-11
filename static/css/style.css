@@ -884,9 +884,9 @@ ol {
 	width: 65px;
 	text-align: center;
 	padding-top: 14px;
-	float: left;
-	margin-right: 20px;
-}
+	margin-right: 20px;  
+  }
+  
 
 .hero__inside__item--meta span {
 	font-size: 26px;
@@ -1545,9 +1545,9 @@ ol {
 	width: 65px;
 	text-align: center;
 	padding-top: 18px;
-	float: left;
-	margin-right: 20px;
-}
+	margin-right: 20px; /* Deja espacio entre los elementos */
+  }
+  
 
 .sidebar__feature__item__list__single .post__meta h4 {
 	font-size: 26px;
