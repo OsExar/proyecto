@@ -30,74 +30,78 @@
     </div>
 
     <!-- Sign In Section Begin -->
-    <div class="signin">
-        <div class="signin__warp">
-            <div class="signin__content">
-                <div class="signin__logo">
-                    <a href="#"><img src="img/siign-in-logo.png" alt=""></a>
-                </div>
-                <p>hola</p>
-                <div class="signin__form">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="false">
-                                Sign up
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">
-                                Sign in
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <div class="signin__form__text">
-                                <p>with your social network :</p>
-                                <div class="signin__form__signup__social">
-                                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" class="google"><i class="fa fa-google"></i></a>
-                                </div>
-                                <div class="divide">or</div>
-                                <form action="#">
-                                    <input type="text" placeholder="User Name*">
-                                    <input type="text" placeholder="Password">
-                                    <input type="text" placeholder="Confirm Password">
-                                    <input type="text" placeholder="Email Address">
-                                    <input type="text" placeholder="Full Name">
-                                    <label for="sign-agree-check">
-                                        I agree to the terms & conditions
-                                        <input type="checkbox" id="sign-agree-check">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <button type="submit" class="site-btn">Register Now</button>
-                                </form>
+<div class="signin">
+    <div class="signin__warp">
+        <div class="signin__content">
+            <div class="signin__logo">
+                <a href="#"><img src="{{ url_for('static', filename='img/siign-in-logo.png') }}" alt=""></a>
+            </div>
+            <p>Hola</p>
+            <div class="signin__form">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="false">
+                            Sign up
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">
+                            Sign in
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                        <div class="signin__form__text">
+                            <p>with your social network :</p>
+                            <div class="signin__form__signup__social">
+                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fa fa-google"></i></a>
                             </div>
+                            <div class="divide">or</div>
+                            <!-- Formulario de Registro -->
+                            <form action="{{ url_for('signin') }}" method="POST">
+                                <input type="text" name="signup-username" placeholder="User Name*" required>
+                                <input type="password" name="signup-password" placeholder="Password" required>
+                                <input type="password" name="signup-confirm-password" placeholder="Confirm Password" required>
+                                <input type="email" name="signup-email" placeholder="Email Address" required>
+                                <input type="text" name="signup-full-name" placeholder="Full Name" required>
+                                <label for="sign-agree-check">
+                                    I agree to the terms & conditions
+                                    <input type="checkbox" id="sign-agree-check">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <button type="submit" class="site-btn">Register Now</button>
+                            </form>
                         </div>
-                        <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <div class="signin__form__text">
-                                <p>with your social network :</p>
-                                <div class="signin__form__signup__social">
-                                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" class="google"><i class="fa fa-google"></i></a>
-                                </div>
-                                <div class="divide">or</div>
-                                <form action="#">
-                                    <input type="text" placeholder="User Name*">
-                                    <input type="text" placeholder="Password">
-                                    <button type="submit" class="site-btn">Sign In</button>
-                                </form>
+                    </div>
+                    <div class="tab-pane" id="tabs-2" role="tabpanel">
+                        <div class="signin__form__text">
+                            <p>with your social network :</p>
+                            <div class="signin__form__signup__social">
+                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fa fa-google"></i></a>
                             </div>
+                            <div class="divide">or</div>
+                            <!-- Formulario de Inicio de Sesión -->
+                            <form action="{{ url_for('signin') }}" method="POST">
+                                <input type="text" name="signin-username" placeholder="User Name*" required>
+                                <input type="password" name="signin-password" placeholder="Password" required>
+                                <button type="submit" class="site-btn">Sign In</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Sign In Section End -->
+</div>
+<!-- Sign In Section End -->
+
 
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
