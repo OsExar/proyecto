@@ -49,11 +49,16 @@ def dashboard():
         return redirect(url_for('signin'))
     return f"Bienvenido, {session['username']}!"
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     flash('Has cerrado sesión correctamente.')
     return redirect(url_for('signin'))
+
+@app.route('/index')
+def index():
+    return render_template('index.html')  # Asumiendo que tienes un archivo index.html en la carpeta templates
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -108,7 +108,8 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="./index.html"><img src="img/humberger/humberger-logo.png" alt=""></a>
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/humberger/humberger-logo.png') }}" alt=""></a>
+
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
@@ -126,7 +127,8 @@
             <div class="humberger__menu__title sidebar__item__title">
                 <h6>About me</h6>
             </div>
-            <img src="img/humberger/humberger-about.jpg" alt="">
+            <img src="{{ url_for('static', filename='img/humberger/humberger-about.jpg') }}" alt="">
+
             <h6>Hi every one! I,m Lena Mollein.</h6>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.</p>
@@ -175,7 +177,8 @@
                                         <div class="header__megamenu">
                                             <div class="header__megamenu__item">
                                                 <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-1.jpg">
+                                                data-setbg="{{ url_for('static', filename='img/megamenu/p-1.jpg') }}"
+
                                                     <div class="label">Vegan</div>
                                                 </div>
                                                 <div class="header__megamenu__item--text">
@@ -185,7 +188,8 @@
                                             </div>
                                             <div class="header__megamenu__item">
                                                 <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-2.jpg">
+                                                data-setbg="{{ url_for('static', filename='img/megamenu/p-2.jpg') }}"
+
                                                     <div class="label">Vegan</div>
                                                 </div>
                                                 <div class="header__megamenu__item--text">
@@ -195,7 +199,8 @@
                                             </div>
                                             <div class="header__megamenu__item">
                                                 <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-3.jpg">
+                                                data-setbg="{{ url_for('static', filename='img/megamenu/p-3.jpg') }}"
+
                                                     <div class="label">Vegan</div>
                                                 </div>
                                                 <div class="header__megamenu__item--text">
@@ -205,7 +210,8 @@
                                             </div>
                                             <div class="header__megamenu__item">
                                                 <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-4.jpg">
+                                                data-setbg="{{ url_for('static', filename='img/megamenu/p-4.jpg') }}"
+
                                                     <div class="label">Vegan</div>
                                                 </div>
                                                 <div class="header__megamenu__item--text">
@@ -215,7 +221,8 @@
                                             </div>
                                             <div class="header__megamenu__item">
                                                 <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-5.jpg">
+                                                data-setbg="{{ url_for('static', filename='img/megamenu/p-5.jpg') }}"
+
                                                     <div class="label">Vegan</div>
                                                 </div>
                                                 <div class="header__megamenu__item--text">
@@ -251,7 +258,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
+
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
@@ -276,7 +284,8 @@
                     <div class="row">
                         <div class="col-lg-6 p-0">
                             <div class="hero__inside__item hero__inside__item--wide set-bg"
-                                data-setbg="img/hero/hero-1.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-1.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -300,7 +309,8 @@
                         </div>
                         <div class="col-lg-3 p-0">
                             <div class="hero__inside__item hero__inside__item--small set-bg"
-                                data-setbg="img/hero/hero-2.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-2.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -316,7 +326,8 @@
                                 </div>
                             </div>
                             <div class="hero__inside__item hero__inside__item--small set-bg"
-                                data-setbg="img/hero/hero-3.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-3.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -333,7 +344,8 @@
                             </div>
                         </div>
                         <div class="col-lg-3 p-0">
-                            <div class="hero__inside__item set-bg" data-setbg="img/hero/hero-4.jpg">
+                            <div class="hero__inside__item set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-4.jpg') }}"></div>
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -357,7 +369,8 @@
                     <div class="row">
                         <div class="col-lg-6 p-0">
                             <div class="hero__inside__item hero__inside__item--wide set-bg"
-                                data-setbg="img/hero/hero-1.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-1.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -381,7 +394,8 @@
                         </div>
                         <div class="col-lg-3 p-0">
                             <div class="hero__inside__item hero__inside__item--small set-bg"
-                                data-setbg="img/hero/hero-3.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-3.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -397,7 +411,8 @@
                                 </div>
                             </div>
                             <div class="hero__inside__item hero__inside__item--small set-bg"
-                                data-setbg="img/hero/hero-2.jpg">
+                            data-setbg="{{ url_for('static', filename='img/hero/hero-2.jpg') }}"
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -414,7 +429,8 @@
                             </div>
                         </div>
                         <div class="col-lg-3 p-0">
-                            <div class="hero__inside__item set-bg" data-setbg="img/hero/hero-4.jpg">
+                            <div class="hero__inside__item set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-4.jpg') }}"></div>
+
                                 <div class="hero__inside__item__text">
                                     <div class="hero__inside__item--meta">
                                         <span>08</span>
@@ -442,7 +458,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
+                    <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-1.jpg') }}"></div>
+
                         <div class="categories__hover__text">
                             <h5>Dinner</h5>
                             <p>28 articles</p>
@@ -450,7 +467,8 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
+                    <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-2.jpg') }}"></div>
+
                         <div class="categories__hover__text">
                             <h5>Dinner</h5>
                             <p>28 articles</p>
@@ -458,7 +476,8 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
+                    <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-3.jpg') }}"></div>
+
                         <div class="categories__hover__text">
                             <h5>Dinner</h5>
                             <p>28 articles</p>
@@ -466,7 +485,8 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
+                    <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-4.jpg') }}"></div>
+
                         <div class="categories__hover__text">
                             <h5>Dinner</h5>
                             <p>28 articles</p>
@@ -481,7 +501,8 @@
                     <div class="col-lg-8 col-md-8">
                         <div class="categories__post__item categories__post__item--large">
                             <div class="categories__post__item__pic set-bg"
-                                data-setbg="img/categories/categories-post/cp-1.jpg">
+                            data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-1.jpg') }}"
+
                                 <div class="post__meta">
                                     <h4>08</h4>
                                     <span>Aug</span>
@@ -517,7 +538,8 @@
                             <div class="col-lg-6 col-md-6">
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic small__item set-bg"
-                                        data-setbg="img/categories/categories-post/cp-2.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-2.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -538,7 +560,8 @@
                                 </div>
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic set-bg"
-                                        data-setbg="img/categories/categories-post/cp-4.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-4.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -561,7 +584,8 @@
                                     </div>
                                 </div>
                                 <div class="categories__post__item__plain set-bg"
-                                    data-setbg="img/categories/categories-post/cp-6.jpg">
+                                data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-6.jpg') }}"
+
                                     <div class="categories__post__item__text">
                                         <div class="post__meta">
                                             <h4>08</h4>
@@ -582,7 +606,8 @@
                                 </div>
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic smaller__large set-bg"
-                                        data-setbg="img/categories/categories-post/cp-8.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-8.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -606,7 +631,8 @@
                             <div class="col-lg-6 col-md-6">
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic smaller__large set-bg"
-                                        data-setbg="img/categories/categories-post/cp-3.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-3.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -627,14 +653,16 @@
                                     </div>
                                 </div>
                                 <div class="categories__post__item__small">
-                                    <img src="img/categories/categories-post/quote.png" alt="">
+                                    <img src="{{ url_for('static', filename='img/categories/categories-post/quote.png') }}" alt="">
+
                                     <p>Lorem ipsum dolor amet, consectetur adipiscing elit, sed do eiusmod tempor
                                         incididunt labore et dolore magna aliqua gravida.</p>
                                     <div class="posted__by">Elena T.Jaivy</div>
                                 </div>
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic smaller__large set-bg"
-                                        data-setbg="img/categories/categories-post/cp-5.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-5.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -655,7 +683,8 @@
                                 </div>
                                 <div class="categories__post__item">
                                     <div class="categories__post__item__pic set-bg"
-                                        data-setbg="img/categories/categories-post/cp-7.jpg">
+                                    data-setbg="{{ url_for('static', filename='img/categories/categories-post/cp-7.jpg') }}"
+
                                         <div class="post__meta">
                                             <h4>08</h4>
                                             <span>Aug</span>
@@ -691,7 +720,8 @@
                                 <div class="sidebar__item__title">
                                     <h6>About me</h6>
                                 </div>
-                                <img src="img/sidebar/sidebar-about.jpg" alt="">
+                                <img src="{{ url_for('static', filename='img/sidebar/sidebar-about.jpg') }}" alt="">
+
                                 <h6>Hi every one! I,m <span>Lena Mollein.</span></h6>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
@@ -714,7 +744,8 @@
                                     <h6>Feature Posts</h6>
                                 </div>
                                 <div class="sidebar__feature__item__large set-bg"
-                                    data-setbg="img/sidebar/feature-post.jpg">
+                                data-setbg="{{ url_for('static', filename='img/sidebar/feature-post.jpg') }}"
+
                                     <div class="sidebar__feature__item__large--text">
                                         <span>Dinner</span>
                                         <h5><a href="#">This Japanese Way of Making Iced Coffee Is a Game...</a></h5>
@@ -764,7 +795,8 @@
                                 </div>
                             </div>
                             <div class="sidebar__item__banner">
-                                <img src="img/sidebar/banner.jpg" alt="">
+                                <img src="{{ url_for('static', filename='img/sidebar/banner.jpg') }}" alt="">
+
                             </div>
                             <div class="sidebar__item__categories">
                                 <div class="sidebar__item__title">
@@ -810,7 +842,8 @@
             <div class="footer__instagram">
                 <div class="footer__instagram__avatar">
                     <div class="footer__instagram__avatar--pic">
-                        <img src="img/footer/instagram-avatar.jpg" alt="">
+                        <img src="{{ url_for('static', filename='img/footer/instagram-avatar.jpg') }}" alt="">
+
                     </div>
                     <div class="footer__instagram__avatar--text">
                         <h5>@ foodieblog</h5>
@@ -819,22 +852,28 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-1.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-1.jpg') }}"></div>
+
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-2.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-2.jpg') }}"></div>
+
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-3.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-3.jpg') }}"></div>
+
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-4.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-4.jpg') }}"></div>
+
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-5.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-5.jpg') }}"></div>
+
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-6.jpg"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="{{ url_for('static', filename='img/footer/ip-6.jpg') }}"></div>
+
                     </div>
                 </div>
             </div>
@@ -842,7 +881,8 @@
         <div class="container">
             <div class="footer__text">
                 <div class="footer__logo">
-                    <a href="#"><img src="img/logo.png" alt=""></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
+
                 </div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut<br />
                     labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra<br />
@@ -875,11 +915,12 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.slicknav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 </body>
 
 </html>
