@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from cs50 import SQL
-
+ #Salgamonos de cs50 mejor
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
@@ -16,7 +16,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # Limite de 16MB
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 
-# Conectar a la base de datos
 db = SQL("sqlite:///RecetasDB.db")
 
 # Función para verificar si el archivo es válido
@@ -27,7 +26,7 @@ def allowed_file(filename):
 def signin():
     if request.method == 'POST':
         # Registro
-        if 'signup' in request.form:
+        if request.form["signup"]:
             print("Procesando registro...")  # Depuración: verificar si entra en el bloque de registro
             nombre = request.form['signup-username']
             email = request.form['signup-email']
@@ -49,32 +48,17 @@ def signin():
 
             hashed_password = generate_password_hash(contraseña)
             
-            # Manejo de imagen de perfil y portada
-            fotoPerfil = request.files['fotoPerfil']
-            fotoPortada = request.files['fotoPortada']
-            if fotoPerfil and allowed_file(fotoPerfil.filename):
-                filename_perfil = secure_filename(fotoPerfil.filename)
-                fotoPerfil.save(os.path.join(app.config['UPLOAD_FOLDER'], filename_perfil))
-            else:
-                filename_perfil = None  # Puedes asignar un valor predeterminado aquí
+           
+            # Guardar el usuario en la base de datos (no paso nada pipipipi)
 
-            if fotoPortada and allowed_file(fotoPortada.filename):
-                filename_portada = secure_filename(fotoPortada.filename)
-                fotoPortada.save(os.path.join(app.config['UPLOAD_FOLDER'], filename_portada))
-            else:
-                filename_portada = None
-
-            print("Guardando usuario en la base de datos...")  # Depuración
-
-            # Guardar el usuario en la base de datos
             try:
-                db.execute("INSERT INTO Usuario (nombre, email, contraseña, fotoPerfil, fotoPortada) VALUES (?, ?, ?, ?, ?)", 
-                           nombre, email, hashed_password, filename_perfil, filename_portada)
+                db.execute("INSERT INTO Usuario (nombre, email, contraseña) VALUES (?, ?, ?)", 
+                           nombre, email, hashed_password)
 
                 print("Usuario guardado.")  # Depuración
                 
                 # Obtener el ID del usuario recién creado para iniciar sesión automáticamente
-                new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)  # Cambiar a 'Usuario'
+                new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)  
                 session['user_id'] = new_user[0]['id']
                 session['username'] = new_user[0]['nombre']
                 flash('Registro exitoso. Has iniciado sesión automáticamente.')
@@ -93,7 +77,7 @@ def signin():
             contraseña = request.form['signin-password']
 
             # Consultar el usuario en la base de datos
-            user = db.execute("SELECT * FROM Usuario WHERE nombre = ?", nombre)  # Cambiar a 'Usuario'
+            user = db.execute("SELECT * FROM Usuario WHERE nombre = ?", nombre)  
             if user and check_password_hash(user[0]['contraseña'], contraseña):
                 session['user_id'] = user[0]['id']
                 session['username'] = user[0]['nombre']
@@ -120,7 +104,7 @@ def logout():
 
 @app.route('/')
 def index():
-    return render_template('index.html')  # Asegúrate de que tengas este archivo en la carpeta 'templates'
+    return render_template('index.html')  
 
 if __name__ == '__main__':
     app.run(debug=True)
