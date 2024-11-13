@@ -50,10 +50,9 @@
                             Sign in
                         </a>
                     </li>
-                    <li class="nav-item">
-                    </li>
                 </ul>
                 <div class="tab-content">
+                    <!-- Registro -->
                     <div class="tab-pane active" id="tabs-1" role="tabpanel">
                         <div class="signin__form__text">
                             <p>with your social network :</p>
@@ -64,21 +63,42 @@
                             </div>
                             <div class="divide">or</div>
                             <!-- Formulario de Registro -->
-                            <form action="{{ url_for('signin') }}" method="POST">
+                            <form action="{{ url_for('signin') }}" method="POST" enctype="multipart/form-data">
+                                <!-- Campos del formulario -->
                                 <input type="text" name="signup-username" placeholder="User Name*" required>
                                 <input type="password" name="signup-password" placeholder="Password" required>
                                 <input type="password" name="signup-confirm-password" placeholder="Confirm Password" required>
                                 <input type="email" name="signup-email" placeholder="Email Address" required>
                                 <input type="text" name="signup-full-name" placeholder="Full Name" required>
+                                <textarea name="signup-biografia" placeholder="Biografía" rows="4"></textarea> <!-- Campo Biografía -->
+                                <input type="file" name="signup-fotoPerfil" placeholder="Foto de Perfil">
+                                <input type="file" name="signup-fotoPortada" placeholder="Foto de Portada">
+                                <input type="text" name="signup-preferenciasRecetas" placeholder="Preferencias de Recetas">
+                                <label for="signup-mostrarIngredientes">
+                                    Mostrar ingredientes:
+                                    <input type="checkbox" name="signup-mostrarIngredientes">
+                                </label>
                                 <label for="sign-agree-check">
                                     I agree to the terms & conditions
-                                    <input type="checkbox" id="sign-agree-check">
+                                    <input type="checkbox" id="sign-agree-check" required>
                                     <span class="checkmark"></span>
                                 </label>
                                 <button type="submit" class="site-btn">Register Now</button>
                             </form>
+                            <!-- Flash message for registration errors or success -->
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class="flash-messages">
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                     </div>
+
+                    <!-- Inicio de sesión -->
                     <div class="tab-pane" id="tabs-2" role="tabpanel">
                         <div class="signin__form__text">
                             <p>with your social network :</p>
@@ -94,6 +114,16 @@
                                 <input type="password" name="signin-password" placeholder="Password" required>
                                 <button type="submit" class="site-btn">Sign In</button>
                             </form>
+                            <!-- Flash message for sign-in errors -->
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class="flash-messages">
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                     </div>
                 </div>
@@ -102,6 +132,7 @@
     </div>
 </div>
 <!-- Sign In Section End -->
+
 
 
     <!-- Humberger Begin -->

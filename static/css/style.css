@@ -2673,7 +2673,7 @@ ol {
 .signin__content {
 	width: 640px;
 	text-align: center;
-	margin: 80px 0 50px;
+	margin: 50px 0 30px;
 }
 
 .signin__content p {
@@ -2684,6 +2684,8 @@ ol {
 }
 
 .signin__form {
+	max-height: 600px;
+	overflow-y: auto;
 	background: #ffffff;
 }
 
@@ -2712,8 +2714,8 @@ ol {
 }
 
 .signin__form__text {
-	padding: 50px;
-	padding-top: 38px;
+	padding: 30px;
+	padding-top: 20px;
 }
 
 .signin__form__text p {
@@ -2723,14 +2725,14 @@ ol {
 }
 
 .signin__form__text form input {
-	height: 46px;
+	height: 40px;
 	width: 100%;
 	background: transparent;
 	border: 1px solid #e1e1e1;
 	font-size: 14px;
 	color: #444444;
 	padding-left: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .signin__form__text form input:last-child {
