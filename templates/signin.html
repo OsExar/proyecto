@@ -35,7 +35,7 @@
     <div class="signin__warp">
         <div class="signin__content">
             <div class="signin__logo">
-                <a href="#"><img src="{{ url_for('static', filename='img/siign-in-logo.png') }}" alt=""></a>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/siign-in-logo.png') }}" alt=""></a> <!-- Cambié el enlace para apuntar a 'index' -->
             </div>
             <p>Crucifiquen a abner</p>
             <div class="signin__form">
@@ -63,9 +63,9 @@
                             </div>
                             <div class="divide">or</div>
                             <!-- Formulario de Registro -->
-                            <form action="/" method="POST" enctype="multipart/form-data">
+                            <form action="{{ url_for('signin') }}" method="POST" enctype="multipart/form-data"> <!-- Cambié el atributo action para que use Flask correctamente -->
                                 <!-- Campos del formulario -->
-                                 <input type="text" name="signup" id="" value="1" hidden>
+                                <input type="text" name="signup" id="" value="1" hidden>
                                 <input type="text" id="signup-username" name="signup-username" placeholder="User Name*" required>
                                 <input type="password" id="signup-password" name="signup-password" placeholder="Password" required>
                                 <input type="password" id="signup-confirm-password" name="signup-confirm-password" placeholder="Confirm Password" required>
@@ -108,10 +108,10 @@
                             </div>
                             <div class="divide">or</div>
                             <!-- Formulario de Inicio de Sesión -->
-                            <form action="{{ url_for('signin') }}" method="POST">
+                            <form action="{{ url_for('signin') }}" method="POST"> <!-- Cambié el atributo action para que use Flask correctamente -->
                                 <input type="text" name="signin-username" placeholder="User Name*" required>
                                 <input type="password" name="signin-password" placeholder="Password" required>
-                                <button type="submit" class="site-btn">Sign In</button>
+                                <button type="submit" name="signin" class="site-btn">Sign In</button>
                             </form>
                             <!-- Flash message for sign-in errors -->
                             {% with messages = get_flashed_messages() %}
@@ -132,18 +132,16 @@
 </div>
 <!-- Sign In Section End -->
 
-
-
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/humberger/humberger-logo.png') }}" alt=""></a>
+            <a href="/"><img src="{{ url_for('static', filename='img/humberger/humberger-logo.png') }}" alt=""></a>
 
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a href="./index.html">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#">Recipes</a></li>
                 <li><a href="#">Dinner</a></li>
                 <li><a href="#">Desserts</a></li>

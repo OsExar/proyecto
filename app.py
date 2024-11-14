@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from cs50 import SQL
- #Salgamonos de cs50 mejor
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
@@ -26,7 +26,7 @@ def allowed_file(filename):
 def signin():
     if request.method == 'POST':
         # Registro
-        if request.form["signup"]:
+        if "signup" in request.form:
             print("Procesando registro...")  # Depuración: verificar si entra en el bloque de registro
             nombre = request.form['signup-username']
             email = request.form['signup-email']
@@ -40,25 +40,19 @@ def signin():
                 return redirect(url_for('signin'))
 
             # Verificar si el email ya está registrado
-            existing_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)  # Cambiar a 'Usuario'
+            existing_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
             if existing_user:
                 flash('El correo ya está registrado.')
                 print("Correo ya registrado.")  # Depuración
                 return redirect(url_for('signin'))
 
             hashed_password = generate_password_hash(contraseña)
-            
-           
-            # Guardar el usuario en la base de datos (no paso nada pipipipi)
 
             try:
-                db.execute("INSERT INTO Usuario (nombre, email, contraseña) VALUES (?, ?, ?)", 
-                           nombre, email, hashed_password)
+                # Guardar el usuario en la base de datos
+                db.execute("INSERT INTO Usuario (nombre, email, contraseña) VALUES (?, ?, ?)", nombre, email, hashed_password)
+                new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
 
-                print("Usuario guardado.")  # Depuración
-                
-                # Obtener el ID del usuario recién creado para iniciar sesión automáticamente
-                new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)  
                 session['user_id'] = new_user[0]['id']
                 session['username'] = new_user[0]['nombre']
                 flash('Registro exitoso. Has iniciado sesión automáticamente.')
@@ -71,23 +65,27 @@ def signin():
                 return redirect(url_for('signin'))
 
         # Inicio de sesión
-        elif 'signin' in request.form:
+        elif "signin" in request.form:
             print("Procesando inicio de sesión...")  # Depuración
             nombre = request.form['signin-username']
             contraseña = request.form['signin-password']
 
-            # Consultar el usuario en la base de datos
-            user = db.execute("SELECT * FROM Usuario WHERE nombre = ?", nombre)  
+            print(f"Usuario ingresado: {nombre}, Contraseña ingresada: {contraseña}")  # Depuración para ver los valores ingresados
+    
+         # Consultar el usuario en la base de datos
+            user = db.execute("SELECT * FROM Usuario WHERE nombre = ?", nombre)
             if user and check_password_hash(user[0]['contraseña'], contraseña):
                 session['user_id'] = user[0]['id']
                 session['username'] = user[0]['nombre']
                 flash('Inicio de sesión exitoso.')
-                return redirect(url_for('dashboard'))
+                print("Inicio de sesión exitoso. Redirigiendo al índice...")  # Depuración
+                return redirect(url_for('index'))  # Redirige al índice después de iniciar sesión
             else:
                 flash('Nombre de usuario o contraseña incorrectos.')
+                print("Inicio de sesión fallido.")  # Depuración
+
 
     return render_template('signin.html')
-
 
 @app.route('/dashboard')
 def dashboard():
@@ -95,16 +93,15 @@ def dashboard():
         return redirect(url_for('signin'))
     return f"Bienvenido, {session['username']}!"
 
-
 @app.route('/logout')
 def logout():
     session.clear()
     flash('Has cerrado sesión correctamente.')
     return redirect(url_for('signin'))
 
-@app.route('/')
+@app.route('/index')
 def index():
-    return render_template('index.html')  
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
