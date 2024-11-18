@@ -27,7 +27,7 @@ def signin():
     if request.method == 'POST':
         # Registro
         if "signup" in request.form:
-            print("Procesando registro...")  # Depuración: verificar si entra en el bloque de registro
+            print("Procesando registro...")
             nombre = request.form['signup-username']
             email = request.form['signup-email']
             contraseña = request.form['signup-password']
@@ -36,54 +36,39 @@ def signin():
             # Validar que las contraseñas coincidan
             if contraseña != confirm_password:
                 flash('Las contraseñas no coinciden.')
-                print("Las contraseñas no coinciden.")  # Depuración
                 return redirect(url_for('signin'))
 
             # Verificar si el email ya está registrado
             existing_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
             if existing_user:
                 flash('El correo ya está registrado.')
-                print("Correo ya registrado.")  # Depuración
                 return redirect(url_for('signin'))
 
             hashed_password = generate_password_hash(contraseña)
-
             try:
-                # Guardar el usuario en la base de datos
                 db.execute("INSERT INTO Usuario (nombre, email, contraseña) VALUES (?, ?, ?)", nombre, email, hashed_password)
                 new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
-
                 session['user_id'] = new_user[0]['id']
                 session['username'] = new_user[0]['nombre']
                 flash('Registro exitoso. Has iniciado sesión automáticamente.')
-                return redirect(url_for('index'))  # Redirige al índice después del registro
-
+                return redirect(url_for('index'))
             except Exception as e:
-                # Si ocurre un error, mostrar el mensaje
-                print(f"Error al registrar el usuario: {e}")  # Depuración para capturar cualquier error
-                flash('Ocurrió un error durante el registro. Inténtalo nuevamente.')
+                print(f"Error al registrar el usuario: {e}")
+                flash('Ocurrió un error durante el registro.')
                 return redirect(url_for('signin'))
 
         # Inicio de sesión
         elif "signin" in request.form:
-            print("Procesando inicio de sesión...")  # Depuración
             nombre = request.form['signin-username']
             contraseña = request.form['signin-password']
-
-            print(f"Usuario ingresado: {nombre}, Contraseña ingresada: {contraseña}")  # Depuración para ver los valores ingresados
-    
-         # Consultar el usuario en la base de datos
             user = db.execute("SELECT * FROM Usuario WHERE nombre = ?", nombre)
             if user and check_password_hash(user[0]['contraseña'], contraseña):
                 session['user_id'] = user[0]['id']
                 session['username'] = user[0]['nombre']
                 flash('Inicio de sesión exitoso.')
-                print("Inicio de sesión exitoso. Redirigiendo al índice...")  # Depuración
-                return redirect(url_for('index'))  # Redirige al índice después de iniciar sesión
+                return redirect(url_for('index'))
             else:
                 flash('Nombre de usuario o contraseña incorrectos.')
-                print("Inicio de sesión fallido.")  # Depuración
-
 
     return render_template('signin.html')
 
@@ -102,6 +87,26 @@ def logout():
 @app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/categories-grid')
+def categories_grid():
+    return render_template('categories-grid.html')
+
+@app.route('/categories-list')
+def categories_list():
+    return render_template('categories-list.html')
+
+@app.route('/single-post')
+def single_post():
+    return render_template('single-post.html')
+
+@app.route('/typography')
+def typography():
+    return render_template('typography.html')
+
+@app.route('/signin')
+def signin_page():
+    return render_template('signin.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
