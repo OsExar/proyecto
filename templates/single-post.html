@@ -32,18 +32,18 @@
 </div>
 <nav class="humberger__menu__nav mobile-menu">
 <ul><li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
-<li><a href="./index.html">Home</a></li>
+<li><a href="{{ url_for('index') }}">Home</a></li>
 <li><a href="#">Recipes</a></li>
 <li><a href="#">Dinner</a></li>
 <li><a href="#">Desserts</a></li>
 <li class="dropdown"><a href="#">Pages</a>
 <ul class="dropdown__menu">
-<li><a href="./categories-grid.html">Categories Grid</a></li>
-<li><a href="./categories-list.html">Categories List</a></li>
-<li><a href="./single-post.html">Single Post</a></li>
-<li><a href="./signin.html">Sign In</a></li>
-<li><a href="./404.html">404</a></li>
-<li><a href="./typography.html">Typography</a></li>
+<li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
+<li><a href="{{ url_for('categories_list') }}">Categories List</a></li>
+<li><a href="{{ url_for('single_post') }}">Single Post</a></li>
+<li><a href="{{ url_for('signin_page') }}">Sign In</a></li>
+<li><a href="{{ url_for('signin_page') }}">404</a></li>
+<li><a href="{{ url_for('typography') }}">Typography</a></li>
 <li><a href="{{ url_for('categories_list') }}">Categories List</a></li></ul>
 </li>
 <li></li>
@@ -71,7 +71,7 @@
 </div>
 <!-- Humberger End -->
 <!-- Header Section Begin -->
-<header class="header">
+<a class="btn btn-logout" href="{{ url_for('logout') }}" style="float:right;">Logout</a><header class="header">
 <div class="header__top">
 <div class="container">
 <div class="row">
@@ -83,7 +83,7 @@
 <div class="col-lg-8 col-md-10 order-md-2 order-3">
 <nav class="header__menu">
 <ul><li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
-<li><a href="./index.html">Home</a></li>
+<li><a href="{{ url_for('index') }}">Home</a></li>
 <li><a href="#">Recipes</a>
 <div class="header__megamenu__wrapper">
 <div class="header__megamenu">
@@ -150,7 +150,7 @@
 <div class="row">
 <div class="col-lg-3 col-md-3">
 <div class="header__btn">
-<a class="primary-btn" href="./signin.html">Subscribe</a>
+<a class="primary-btn" href="{{ url_for('signin_page') }}">Subscribe</a>
 </div>
 </div>
 <div class="col-lg-6 col-md-6">

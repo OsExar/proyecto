@@ -162,7 +162,7 @@
 </div>
 <!-- Humberger End -->
 <!-- Header Section Begin -->
-<header class="header">
+<a class="btn btn-logout" href="{{ url_for('logout') }}" style="float:right;">Logout</a><header class="header">
 <div class="header__top">
 <div class="container">
 <div class="row">
@@ -174,7 +174,7 @@
 <div class="col-lg-8 col-md-10 order-md-2 order-3">
 <nav class="header__menu">
 <ul><li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
-<li><a href="./index.html">Home</a></li>
+<li><a href="{{ url_for('index') }}">Home</a></li>
 <li><a href="#">Recipes</a>
 <div class="header__megamenu__wrapper">
 <div class="header__megamenu">
