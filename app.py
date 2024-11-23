@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from cs50 import SQL
+from datetime import datetime
 
 # Crear la instancia de la aplicación Flask
 app = Flask(__name__)
@@ -22,6 +23,51 @@ db = SQL("sqlite:///RecetasDB.db")
 # Función para verificar si el archivo es válido
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Función para añadir recetas de ejemplo
+def add_example_recipes():
+    recetas_existentes = db.execute("SELECT * FROM Receta")
+    if not recetas_existentes:
+        recetas = [
+            {
+                "nombre": "Pancakes de Avena",
+                "descripcion": "Deliciosos pancakes de avena, perfectos para un desayuno saludable.",
+                "tiempo_preparacion": "20",
+                "dificultad": "Fácil",
+                "categoria_id": 1,
+                "comentarios": "Añadir frutas como topping.",
+                "pasos": "1. Mezcla avena, huevo y leche.\n2. Cocina en una sartén caliente hasta dorar ambos lados.",
+                "imagen_ruta": "img/default_recipe.jpg",
+                "fecha_creacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            },
+            {
+                "nombre": "Ensalada César",
+                "descripcion": "Clásica ensalada César con pollo a la parrilla.",
+                "tiempo_preparacion": "15",
+                "dificultad": "Media",
+                "categoria_id": 2,
+                "comentarios": "Servir con crutones y queso parmesano.",
+                "pasos": "1. Mezcla lechuga, pollo y aderezo César.\n2. Añadir crutones y queso al gusto.",
+                "imagen_ruta": "img/default_recipe.jpg",
+                "fecha_creacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            },
+            {
+                "nombre": "Tacos de Pescado",
+                "descripcion": "Tacos de pescado fresco con salsa de mango.",
+                "tiempo_preparacion": "30",
+                "dificultad": "Media",
+                "categoria_id": 3,
+                "comentarios": "Servir con tortillas de maíz.",
+                "pasos": "1. Cocina el pescado a la parrilla.\n2. Prepara la salsa de mango.\n3. Arma los tacos y disfruta.",
+                "imagen_ruta": "img/default_recipe.jpg",
+                "fecha_creacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+        ]
+        for receta in recetas:
+            db.execute(
+                "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, autor_id, categoria_id, comentarios, pasos, imagenReceta, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                receta["nombre"], receta["descripcion"], receta["tiempo_preparacion"], receta["dificultad"], 1, receta["categoria_id"], receta["comentarios"], receta["pasos"], receta["imagen_ruta"], receta["fecha_creacion"]
+            )
 
 # Ruta para el inicio de sesión y registro
 @app.route('/', methods=['GET', 'POST'])
@@ -89,12 +135,15 @@ def logout():
 # Ruta para el dashboard
 @app.route('/index')
 def index():
+    add_example_recipes()  # Añadir recetas de ejemplo si no existen
     categories = db.execute("SELECT * FROM Categoria")
-    return render_template('index.html', categories=categories)
+    recetas = db.execute("SELECT * FROM Receta LIMIT 24")  # Mínimo de 8 recetas por cada categoría
+    return render_template('index.html', recetas=recetas, categories=categories)
 
-# Ruta para el grid de categorías
+# Ruta para mostrar las categorías
 @app.route('/categories-grid')
 def categories_grid():
+    # Mostrar todas las categorías disponibles
     categories = db.execute("SELECT * FROM Categoria")
     return render_template('categories-grid.html', categories=categories)
 
@@ -118,6 +167,7 @@ def add():
         dificultad = request.form.get('difficulty')
         categoria_id = request.form.get('category')
         comentarios = request.form.get('additional-notes')
+        pasos = request.form.get('recipe-steps')  # Agregar campo para los pasos
         imagen = request.files.get('recipe-image')
 
         # Verificar si se sube una imagen válida
@@ -126,11 +176,14 @@ def add():
             imagen.save(filename)
             imagen_ruta = os.path.join('uploads', imagen.filename)
         else:
-            imagen_ruta = None
+            # Imagen predeterminada si no se sube ninguna
+            imagen_ruta = 'img/default_recipe.jpg'
+
+        fecha_creacion = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Fecha de creación real
 
         db.execute(
-            "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, autor_id, categoria_id, comentarios, imagenReceta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            nombre, descripcion, tiempo_preparacion, dificultad, session['user_id'], categoria_id, comentarios, imagen_ruta
+            "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, autor_id, categoria_id, comentarios, pasos, imagenReceta, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            nombre, descripcion, tiempo_preparacion, dificultad, session['user_id'], categoria_id, comentarios, pasos, imagen_ruta, fecha_creacion
         )
         flash('Receta añadida correctamente!')
         return redirect(url_for('index'))
@@ -173,7 +226,7 @@ def categories_list():
 
 # Ruta para visualizar recetas por categoría
 @app.route('/category/<int:category_id>')
-def category_view(category_id):
+def view_category(category_id):
     category = db.execute("SELECT * FROM Categoria WHERE id = ?", category_id)
     if not category:
         flash('Categoría no encontrada.', 'danger')
@@ -182,7 +235,7 @@ def category_view(category_id):
     recipes = db.execute("SELECT * FROM Receta WHERE categoria_id = ?", category_id)
     category_name = category[0]['nombre']
 
-    return render_template('category_view.html', recipes=recipes, category_name=category_name)
+    return render_template('view_category.html', recipes=recipes, category_name=category_name)
 
 # Ruta para buscar recetas o categorías
 @app.route('/search', methods=['GET'])
@@ -215,10 +268,19 @@ def edit_profile():
         email = request.form.get('email')
         biografia = request.form.get('biografia')
         mostrar_ingredientes = request.form.get('mostrar_ingredientes') == 'on'
+        foto_perfil = request.files.get('profile-image')
+
+        # Verificar si se sube una imagen válida para el perfil
+        if foto_perfil and allowed_file(foto_perfil.filename):
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], foto_perfil.filename)
+            foto_perfil.save(filename)
+            foto_perfil_ruta = os.path.join('uploads', foto_perfil.filename)
+        else:
+            foto_perfil_ruta = None
 
         db.execute(
-            "UPDATE Usuario SET nombre = ?, email = ?, biografia = ?, mostrarIngredientes = ? WHERE id = ?",
-            nombre, email, biografia, mostrar_ingredientes, session['user_id']
+            "UPDATE Usuario SET nombre = ?, email = ?, biografia = ?, mostrarIngredientes = ?, fotoPerfil = ? WHERE id = ?",
+            nombre, email, biografia, mostrar_ingredientes, foto_perfil_ruta, session['user_id']
         )
         session['username'] = nombre
         flash('Perfil actualizado correctamente!')

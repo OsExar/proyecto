@@ -1,0 +1,15 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>Categorías</h1>
+    <ul class="list-group">
+        {% for category, count in category_counts %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ category }}
+                <span class="badge bg-primary rounded-pill">{{ count }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -4,8 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Explore Categories</h2>
-    <!-- Mostrar botón de inicio de sesión si el usuario no está autenticado -->
+    <h2 class="text-center mb-4">Explore Recipes</h2>
     {% if not session.get('user_id') %}
     <div class="text-center mb-4">
         <a href="{{ url_for('signin') }}" class="btn btn-primary">Sign In</a>
@@ -13,17 +12,22 @@
     {% endif %}
 
     <div class="row">
-        <!-- Mostrar las categorías -->
-        {% for category in categories %}
+        {% for receta in recetas %}
         <div class="col-md-4">
             <div class="card mb-4">
-                <a href="{{ url_for('category_view', category_id=category.id) }}">
-                    <img src="{{ url_for('static', filename='img/categories/' ~ category.nombre | lower ~ '.jpg') }}" class="card-img-top" alt="{{ category.nombre }}">
+                <a href="{{ url_for('single_post', recipe_id=receta.id) }}">
+                    {% if receta.imagenReceta %}
+                        <img src="{{ url_for('static', filename=receta.imagenReceta) }}" class="card-img-top" alt="{{ receta.nombre }}">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='img/default_recipe.jpg') }}" class="card-img-top" alt="{{ receta.nombre }}">
+                    {% endif %}
                 </a>
                 <div class="card-body text-center">
-                    <a href="{{ url_for('category_view', category_id=category.id) }}">
-                        <h5 class="card-title">{{ category.nombre }}</h5>
+                    <a href="{{ url_for('single_post', recipe_id=receta.id) }}">
+                        <h5 class="card-title">{{ receta.nombre }}</h5>
                     </a>
+                    <p class="card-text">Cooking Time: {{ receta.tiempoPreparacion }} minutes</p>
+                    <p class="card-text">Difficulty: {{ receta.dificultad }}</p>
                 </div>
             </div>
         </div>

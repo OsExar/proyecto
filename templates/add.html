@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2>Add New Recipe</h2>
-    <form action="{{ url_for('add_recipe') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('add') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="recipe_name">Recipe Name:</label>
             <input type="text" class="form-control" id="recipe_name" name="recipe-name" required>

@@ -1,117 +1,36 @@
-{% extends "layout.html" %}
 
-{% block title %}
-Single Post - Recipy
-{% endblock %}
+    {% extends "layout.html" %}
 
-{% block content %}
-<!-- Single Post Section Begin -->
-<section class="single-post spad">
-    <!-- Hero Section -->
-    <div class="single-post__hero set-bg" data-setbg="{{ url_for('static', filename='img/categories/single-post/single-post-hero.jpg') }}"></div>
-    
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-8">
-                <!-- Post Title and Meta -->
-                <div class="single-post__title">
-                    <div class="single-post__title__meta">
-                        <h2>08</h2>
-                        <span>Aug</span>
+    {% block title %}Single Post - {{ recipe.nombre }}{% endblock %}
+
+    {% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card mb-4" style="border: 1px solid #f8b400;">
+                    <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" class="card-img-top" alt="{{ recipe.nombre }}">
+                    <div class="card-body" style="background-color: #fff3e6;">
+                        <h2 class="card-title text-primary">{{ recipe.nombre }}</h2>
+                        <p class="card-text"><strong>Published on:</strong> {{ recipe.fechaCreacion or 'N/A' }}</p>
+                        <p class="card-text"><strong>Description:</strong> {{ recipe.descripcion }}</p>
+                        <p class="card-text"><strong>Cooking Time:</strong> {{ recipe.tiempoPreparacion }} minutes</p>
+                        <p class="card-text"><strong>Difficulty:</strong> {{ recipe.dificultad }}</p>
+                        <p class="card-text"><strong>Comments:</strong> {{ recipe.comentarios }}</p>
+                        <hr>
+                        <h4 class="text-success">Steps:</h4>
+                        {% if recipe.pasos %}
+                            <ol>
+                                {% for paso in recipe.pasos.splitlines() %}
+                                <li>{{ paso }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% else %}
+                            <p>No steps available for this recipe.</p>
+                        {% endif %}
                     </div>
-                    <div class="single-post__title__text">
-                        <ul class="label">
-                            <li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
-                            <li>Vegan</li>
-                            <li>Desserts</li>
-                            <li><a href="{{ url_for('categories_list') }}">Categories List</a></li>
-                        </ul>
-                        <h4>Weight loss diet: Ditching this one food can help you slim down fast - what is it?</h4>
-                        <ul class="widget">
-                            <li>by Admin</li>
-                            <li>3 min read</li>
-                            <li>20 Comment</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Social Links -->
-                <div class="single-post__social__item">
-                    <ul>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                    </ul>
-                </div>
-                <!-- Post Content -->
-                <div class="single-post__top__text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-                </div>
-                <!-- Recipe Details -->
-                <div class="single-post__recipe__details">
-                    <div class="single-post__recipe__details__option">
-                        <ul>
-                            <li>
-                                <h5><i class="fa fa-user-o"></i> SERVES</h5>
-                                <span>2 as a main, 4 as a side</span>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-clock-o"></i> PREP TIME</h5>
-                                <span>15 minute</span>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-clock-o"></i> COOK TIME</h5>
-                                <span>15 minute</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="single-post__recipe__details__ingredients">
-                        <h5>Ingredients</h5>
-                        <ul>
-                            <li>1 cup water</li>
-                            <li>2 tablespoons olive oil</li>
-                            <li>3/4 cup fine polenta</li>
-                        </ul>
-                    </div>
-                    <div class="single-post__recipe__details__direction">
-                        <h5>Directions</h5>
-                        <ul>
-                            <li>1. Combine all ingredients, kneading to form a smooth dough.</li>
-                            <li>2. Allow the dough to rise for about 90 minutes.</li>
-                            <li>3. Bake at 425°F for 25-30 minutes.</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Comments Section -->
-                <div class="single-post__comment">
-                    <div class="widget__title">
-                        <h4>03 Comments</h4>
-                    </div>
-                    <div class="single-post__comment__item">
-                        <div class="single-post__comment__item__text">
-                            <h5>Brandon Kelley</h5>
-                            <span>15 Aug 2017</span>
-                            <p>Neque porro quisquam est...</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Leave a Comment -->
-                <div class="single-post__leave__comment">
-                    <div class="widget__title">
-                        <h4>Leave a comment</h4>
-                    </div>
-                    <form action="#" method="POST">
-                        <div class="input-list">
-                            <input type="text" name="name" placeholder="Name" required />
-                            <input type="email" name="email" placeholder="Email" required />
-                        </div>
-                        <textarea name="message" placeholder="Message" required></textarea>
-                        <button type="submit" class="site-btn">Submit</button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- Single Post Section End -->
-{% endblock %}
+    {% endblock %}
+    
