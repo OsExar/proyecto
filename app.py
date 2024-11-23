@@ -107,38 +107,9 @@ def add():
         flash('Recipe added successfully!')
         return redirect(url_for('index'))
 
+    # Consulta las categorías desde la base de datos
     categories = db.execute("SELECT * FROM Categoria")
     return render_template('add.html', categories=categories)
-
-# Ruta para añadir categorías
-@app.route('/add-category', methods=['GET', 'POST'])
-def add_category():
-    if request.method == 'POST':
-        nombre = request.form.get('name')
-        if not nombre:
-            flash('Category name is required.')
-            return redirect(url_for('add_category'))
-
-        db.execute("INSERT INTO Categoria (nombre) VALUES (?)", nombre)
-        flash('Category added successfully.')
-        return redirect(url_for('categories_grid'))
-
-    return render_template('add-category.html')
-
-# Ruta para visualizar una receta específica
-@app.route('/single-post/<int:recipe_id>')
-def single_post(recipe_id):
-    recipe = db.execute("SELECT * FROM Receta WHERE id = ?", recipe_id)
-    if not recipe:
-        flash('Recipe not found.', 'danger')
-        return redirect(url_for('index'))
-    return render_template('single-post.html', recipe=recipe[0])
-
-# Ruta para mostrar categorías en lista
-@app.route('/categories-list')
-def categories_list():
-    categories = db.execute("SELECT * FROM Categoria")
-    return render_template('categories-list.html', categories=categories)
 
 # Ruta para visualizar recetas por categoría
 @app.route('/category/<int:category_id>')
@@ -197,6 +168,7 @@ def edit_profile():
 
     user = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])[0]
     return render_template('edit-profile.html', user=user)
+
 # Ruta para visualizar el perfil del usuario
 @app.route('/profile')
 def profile():
@@ -211,5 +183,6 @@ def profile():
     
     user = user[0]  # Extraer el usuario de la lista
     return render_template('profile.html', user=user)
+
 if __name__ == '__main__':
     app.run(debug=True)
