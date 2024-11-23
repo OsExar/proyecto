@@ -40,6 +40,7 @@ CS50: Simplified database interactions
 ### `Setup Instructions:`
 Clone the Repository:
 git clone https://github.com/OsExar/proyecto
+
 cd recipy
 
 Install Dependencies: Ensure Python is installed on your system. Then, install the required dependencies:
