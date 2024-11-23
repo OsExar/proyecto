@@ -7,7 +7,9 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card mb-4" style="border: 1px solid #f8b400;">
-                <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" class="card-img-top" alt="{{ recipe.nombre }}">
+                <img src="{{ url_for('static', filename='uploads/' + (recipe['imagenReceta'] if recipe['imagenReceta'] else 'no-image-icon-6.png')) }}" class="card-img-top" alt="{{ recipe['nombre'] }}">
+
+
                 <div class="card-body" style="background-color: #fff3e6;">
                     <h2 class="card-title text-primary">{{ recipe.nombre }}</h2>
                     <p class="card-text"><strong>Published on:</strong> {{ recipe.fechaCreacion or 'N/A' }}</p>
