@@ -1,63 +1,46 @@
-
 {% extends "layout.html" %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Add New Recipe</h2>
+    <h2>Añadir Nueva Receta</h2>
     <form action="{{ url_for('add') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="recipe_name">Recipe Name:</label>
+            <label for="recipe_name">Nombre de la Receta:</label>
             <input type="text" class="form-control" id="recipe_name" name="recipe-name" required>
         </div>
         <div class="form-group">
-            <label for="category">Category:</label>
-            <select class="form-control" id="category" name="category">
-                <option value="" selected>Choose a category</option>
-                {% for categoria in categorias %}
+            <label for="category">Categoría:</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="" selected>Elige una categoría</option>
+                {% for categoria in categories %}
                     <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="ingredients">Description:</label>
-            <textarea class="form-control" id="instructions" name="recipe-description" rows="5" required></textarea>
+            <label for="recipeDescription" class="form-label">Descripción:</label>
+            <textarea name="recipe-description" id="recipeDescription" class="form-control" rows="4" required></textarea>
         </div>
         <div class="form-group">
-            <label for="cooking_time">Cooking Time (in minutes):</label>
-            <input type="number" class="form-control" id="cooking_time" name="cooking_time" required>
+            <label for="prep_time">Tiempo de Preparación (minutos):</label>
+            <input type="number" class="form-control" id="prep_time" name="prep-time" required>
         </div>
-
-        <button type="submit" class="btn btn-primary w-100">Agregar Receta</button>
-    
-    <div class="mb-3">
-        <label for="recipeDescription" class="form-label">Descripción de la Receta</label>
-        <textarea name="recipe-description" id="recipeDescription" class="form-control" rows="4" required></textarea>
-    </div>
-
         <div class="form-group">
-            <label for="difficulty">Difficulty Level:</label>
+            <label for="difficulty">Nivel de Dificultad:</label>
             <select class="form-control" id="difficulty" name="difficulty" required>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
+                <option value="Easy">Fácil</option>
+                <option value="Medium">Media</option>
+                <option value="Hard">Difícil</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="additional_notes">Comments:</label>
-            <textarea class="form-control" id="additional_notes" name="additional_notes" rows="4"></textarea>
+            <label for="additional_notes">Comentarios:</label>
+            <textarea class="form-control" id="additional_notes" name="additional-notes" rows="4"></textarea>
         </div>
         <div class="form-group">
-            <label for="image">Upload Recipe Image:</label>
-            <input type="file" class="form-control-file" id="image" name="image" accept=".jpg, .jpeg, .png, .gif">
-        </div>
-        <button type="submit" class="btn btn-primary">Add Recipe</button>
-
-    
-        <div class="form-group">
-            <label for="recipe_image">Image:</label>
+            <label for="recipe_image">Imagen:</label>
             <input type="file" class="form-control" id="recipe_image" name="recipe-image" accept="image/*">
         </div>
-    
-</form>
-    
+        <button type="submit" class="btn btn-primary w-100">Añadir Receta</button>
+    </form>
 </div>
 {% endblock %}

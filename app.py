@@ -156,31 +156,34 @@ def add():
 
     if request.method == 'POST':
         nombre = request.form.get('recipe-name')
-        if not nombre:
-            flash('El nombre de la receta es obligatorio.')
-            return redirect(url_for('add'))
         descripcion = request.form.get('recipe-description')
-        if not descripcion:
-            flash('La descripción de la receta es obligatoria.')
-            return redirect(url_for('add'))
         tiempo_preparacion = request.form.get('prep-time')
         dificultad = request.form.get('difficulty')
         categoria_id = request.form.get('category')
         comentarios = request.form.get('additional-notes')
-        pasos = request.form.get('recipe-steps')  # Agregar campo para los pasos
+        pasos = request.form.get('recipe-steps')
         imagen = request.files.get('recipe-image')
 
-        # Verificar si se sube una imagen válida
+        # Verificar que el usuario exista
+        usuario = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])
+        if not usuario:
+            flash('Usuario no válido.')
+            return redirect(url_for('index'))
+
+        # Verificar que la categoría exista
+        categoria = db.execute("SELECT * FROM Categoria WHERE id = ?", categoria_id)
+        if not categoria:
+            flash('Categoría no válida.')
+            return redirect(url_for('add'))
+
         if imagen and allowed_file(imagen.filename):
             filename = os.path.join(app.config['UPLOAD_FOLDER'], imagen.filename)
             imagen.save(filename)
             imagen_ruta = os.path.join('uploads', imagen.filename)
         else:
-            # Imagen predeterminada si no se sube ninguna
             imagen_ruta = 'img/default_recipe.jpg'
 
-        fecha_creacion = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Fecha de creación real
-
+        fecha_creacion = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         db.execute(
             "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, autor_id, categoria_id, comentarios, pasos, imagenReceta, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             nombre, descripcion, tiempo_preparacion, dificultad, session['user_id'], categoria_id, comentarios, pasos, imagen_ruta, fecha_creacion
@@ -190,6 +193,7 @@ def add():
 
     categories = db.execute("SELECT * FROM Categoria")
     return render_template('add.html', categories=categories)
+
 
 # Ruta para añadir categorías
 @app.route('/add-category', methods=['GET', 'POST'])
