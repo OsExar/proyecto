@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ category_name }} Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">{{ category_name }} Recipes</h2>
+    <div class="row">
+        {% if recipes %}
+        {% for recipe in recipes %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ recipe.imagenReceta }}" class="card-img-top" alt="{{ recipe.nombre }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ recipe.nombre }}</h5>
+                    <p class="card-text">{{ recipe.descripcion }}</p>
+                    <a href="{{ url_for('single_post', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <p class="text-center">No recipes found in this category.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
