@@ -1,0 +1,26 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-center">Resultados de búsqueda</h1>
+{% if recipes or categories %}
+    <h2>Recetas:</h2>
+    <div class="search-results"><ul>
+    {% for recipe in recipes %}
+        <li>
+            <a href="{{ url_for('single_post', recipe_id=recipe.id) }}">{{ recipe.nombre }}</a>
+            - {{ recipe.descripcion }}
+        </li>
+    {% endfor %}
+    </ul></div>
+    <h2>Categorías:</h2>
+    <div class="search-results"><ul>
+    {% for category in categories %}
+        <li>
+            <a href="{{ url_for('categories_grid', category_id=category.id) }}">{{ category.nombre }}</a>
+        </li>
+    {% endfor %}
+    </ul></div>
+{% else %}
+    <p>No se encontraron resultados para tu búsqueda.</p>
+{% endif %}
+{% endblock %}

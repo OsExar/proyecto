@@ -1,8 +1,10 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+import requests
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from cs50 import SQL
+import re
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -153,6 +155,49 @@ def add_recipe():
 @app.route('/signin')
 def signin_page():
     return render_template('signin.html')
+
+# Ruta para visualizar el perfil del usuario
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('signin'))
+    user = db.execute("SELECT nombre, email, biografia, fotoPerfil FROM Usuario WHERE id = ?", session['user_id'])
+    if not user:
+        flash('Usuario no encontrado.', 'danger')
+        return redirect(url_for('signin'))
+    user = user[0]
+    return render_template('profile.html', user=user)
+
+# Ruta para visualizar categorías
+@app.route('/category/<int:category_id>')
+def category_view(category_id):
+    category = db.execute("SELECT nombre FROM Categoria WHERE id = ?", category_id)
+    if not category:
+        flash('Categoría no encontrada.', 'danger')
+        return redirect(url_for('index'))
+    
+    category_name = category[0]['nombre']
+    recipes = db.execute("SELECT * FROM Receta WHERE categoria_id = ?", category_id)
+    return render_template('category_view.html', recipes=recipes, category_name=category_name)
+
+# Ruta para buscar recetas o categorías
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('q', '').strip()
+    if not query:
+        flash('Por favor, introduce un término de búsqueda.', 'warning')
+        return redirect(url_for('index'))
+
+    recipes = db.execute(
+        "SELECT * FROM Receta WHERE nombre LIKE ? OR descripcion LIKE ?",
+        f'%{query}%', f'%{query}%'
+    )
+    categories = db.execute(
+        "SELECT * FROM Categoria WHERE nombre LIKE ?",
+        f'%{query}%'
+    )
+
+    return render_template('search_results.html', recipes=recipes, categories=categories)
 
 if __name__ == '__main__':
     app.run(debug=True)

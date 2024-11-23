@@ -1,0 +1,20 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="{{ user.fotoPerfil or 'default-profile.png' }}" alt="Foto de perfil" class="img-fluid rounded-circle mb-3">
+                <h3>{{ user.nombre }}</h3>
+            </div>
+            <div class="col-md-8">
+                <h4>Información del Usuario</h4>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Biografía:</strong> {{ user.biografia or 'Sin biografía' }}</p>
+                <p><strong>Preferencias:</strong> {{ user.preferenciasRecetas or 'Sin preferencias' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

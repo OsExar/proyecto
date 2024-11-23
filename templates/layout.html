@@ -36,7 +36,7 @@
             background-color: #ff1a32;
         }
     </style>
-</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}"></head>
 <body>
     <!-- Barra Superior -->
     <div class="header__top" style="position: relative;">
@@ -48,6 +48,17 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-10">
+<div class="header__menu">
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('categories_grid') }}">Categories</a></li>
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        </ul>
+    
+
+</nav>
+</div>
                     <nav class="header__menu">
                         <ul>
                             <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -66,7 +77,12 @@
                                 </ul>
                             </li>
                         </ul>
-                    </nav>
+                    
+<form action="{{ url_for('search') }}" method="GET" class="d-flex" role="search">
+    <input class="form-control me-2" type="search" name="q" placeholder="Buscar recetas o categorías" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Buscar</button>
+</form>
+</nav>
                 </div>
                 <div class="col-lg-2 col-md-1 col-6">
                     <div class="header__btn"></div>
@@ -94,7 +110,7 @@
                 <div class="col-lg-12 text-center">
                     <div class="footer__text">
                         <div class="footer__logo">
-                            <a href="#"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
+                            <a href="#"><img src="{{ url_for('static', filename='img/LogoRecipy.png') }}" alt="Logo"></a>
                         </div>
                         <p>©2024 All rights reserved | Designed with <i class="fa fa-heart"></i> by Recipy Team</p>
                         <div class="footer__social">
