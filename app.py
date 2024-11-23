@@ -145,6 +145,7 @@ def index():
 def categories_grid():
     # Mostrar todas las categorías disponibles
     categories = db.execute("SELECT * FROM Categoria")
+    print(categories) 
     return render_template('categories-grid.html', categories=categories)
 
 # Ruta para añadir recetas
@@ -161,16 +162,10 @@ def add():
         dificultad = request.form.get('difficulty')
         categoria_id = request.form.get('category')
         comentarios = request.form.get('additional-notes')
-        pasos = request.form.get('recipe-steps')
+        pasos = request.form.get('recipe-steps')  # Captura del campo 'recipe-steps'
         imagen = request.files.get('recipe-image')
 
-        # Verificar que el usuario exista
-        usuario = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])
-        if not usuario:
-            flash('Usuario no válido.')
-            return redirect(url_for('index'))
-
-        # Verificar que la categoría exista
+        # Validar categoría
         categoria = db.execute("SELECT * FROM Categoria WHERE id = ?", categoria_id)
         if not categoria:
             flash('Categoría no válida.')
@@ -229,17 +224,18 @@ def categories_list():
     return render_template('categories-list.html', categories=categories)
 
 # Ruta para visualizar recetas por categoría
-@app.route('/category/<int:category_id>')
+@app.route('/category/<int:category_id>', methods=['GET'])
 def view_category(category_id):
     category = db.execute("SELECT * FROM Categoria WHERE id = ?", category_id)
     if not category:
-        flash('Categoría no encontrada.', 'danger')
-        return redirect(url_for('index'))
+        flash("Categoría no encontrada.", "danger")
+        return redirect(url_for('categories_grid'))
 
     recipes = db.execute("SELECT * FROM Receta WHERE categoria_id = ?", category_id)
     category_name = category[0]['nombre']
 
     return render_template('view_category.html', recipes=recipes, category_name=category_name)
+
 
 # Ruta para buscar recetas o categorías
 @app.route('/search', methods=['GET'])
@@ -307,6 +303,22 @@ def profile():
     
     user = user[0]  # Extraer el usuario de la lista
     return render_template('profile.html', user=user)
+
+@app.route('/categories', methods=['GET'])
+def show_categories():
+    """Muestra todas las categorías."""
+    categories = db.execute("SELECT * FROM Categoria")
+    return render_template('categories.html', categories=categories)
+
+@app.route('/category/<int:category_id>')
+def view_category_recipes(category_id):
+    print(f"Requested category ID: {category_id}")  # Depuración
+    category = db.execute("SELECT * FROM Categoria WHERE id = ?", category_id)
+    if not category:
+        flash('Categoría no encontrada.', 'danger')
+        return redirect(url_for('categories_grid'))
+    recipes = db.execute("SELECT * FROM Receta WHERE categoria_id = ?", category_id)
+    return render_template('view_category.html', recipes=recipes, category_name=category[0]['nombre'])
 
 if __name__ == '__main__':
     app.run(debug=True)

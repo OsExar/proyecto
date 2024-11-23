@@ -1,36 +1,34 @@
+{% extends "layout.html" %}
 
-    {% extends "layout.html" %}
+{% block title %}Single Post - {{ recipe.nombre }}{% endblock %}
 
-    {% block title %}Single Post - {{ recipe.nombre }}{% endblock %}
-
-    {% block content %}
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card mb-4" style="border: 1px solid #f8b400;">
-                    <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" class="card-img-top" alt="{{ recipe.nombre }}">
-                    <div class="card-body" style="background-color: #fff3e6;">
-                        <h2 class="card-title text-primary">{{ recipe.nombre }}</h2>
-                        <p class="card-text"><strong>Published on:</strong> {{ recipe.fechaCreacion or 'N/A' }}</p>
-                        <p class="card-text"><strong>Description:</strong> {{ recipe.descripcion }}</p>
-                        <p class="card-text"><strong>Cooking Time:</strong> {{ recipe.tiempoPreparacion }} minutes</p>
-                        <p class="card-text"><strong>Difficulty:</strong> {{ recipe.dificultad }}</p>
-                        <p class="card-text"><strong>Comments:</strong> {{ recipe.comentarios }}</p>
-                        <hr>
-                        <h4 class="text-success">Steps:</h4>
-                        {% if recipe.pasos %}
-                            <ol>
-                                {% for paso in recipe.pasos.splitlines() %}
-                                <li>{{ paso }}</li>
-                                {% endfor %}
-                            </ol>
-                        {% else %}
-                            <p>No steps available for this recipe.</p>
-                        {% endif %}
-                    </div>
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-4" style="border: 1px solid #f8b400;">
+                <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" class="card-img-top" alt="{{ recipe.nombre }}">
+                <div class="card-body" style="background-color: #fff3e6;">
+                    <h2 class="card-title text-primary">{{ recipe.nombre }}</h2>
+                    <p class="card-text"><strong>Published on:</strong> {{ recipe.fechaCreacion or 'N/A' }}</p>
+                    <p class="card-text"><strong>Description:</strong> {{ recipe.descripcion }}</p>
+                    <p class="card-text"><strong>Cooking Time:</strong> {{ recipe.tiempoPreparacion }} minutes</p>
+                    <p class="card-text"><strong>Difficulty:</strong> {{ recipe.dificultad }}</p>
+                    <p class="card-text"><strong>Comments:</strong> {{ recipe.comentarios }}</p>
+                    <hr>
+                    <h4 class="text-success">Steps:</h4>
+                    {% if recipe.pasos %}
+                        <ol>
+                            {% for paso in recipe.pasos.split('\n') %}
+                            <li>{{ paso }}</li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <p>No steps available for this recipe.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
-    
+</div>
+{% endblock %}

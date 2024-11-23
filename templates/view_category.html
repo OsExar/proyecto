@@ -1,21 +1,24 @@
 {% extends "layout.html" %}
-{% block title %}Categoría: {{ category_name }}{% endblock %}
 {% block content %}
-<div class="container">
-    <h1>Recetas en la categoría: {{ category_name }}</h1>
+<div class="container mt-5">
+    <h2 class="text-center">Recetas en la Categoría: {{ category_name }}</h2>
     <div class="row">
+        {% if recipes %}
         {% for recipe in recipes %}
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <div class="card">
-                <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" alt="{{ recipe.nombre }}" class="card-img-top">
-                <div class="card-body">
+                <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}">
+                    <img src="{{ url_for('static', filename=recipe.imagenReceta) }}" class="card-img-top" alt="{{ recipe.nombre }}">
+                </a>
+                <div class="card-body text-center">
                     <h5 class="card-title">{{ recipe.nombre }}</h5>
-                    <p class="card-text">{{ recipe.descripcion }}</p>
-                    <a href="{{ url_for('single_post', recipe_id=recipe.id) }}" class="btn btn-primary">Ver receta</a>
                 </div>
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <p class="text-center">No hay recetas disponibles en esta categoría.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
