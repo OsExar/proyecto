@@ -121,8 +121,12 @@ def add_recipe():
         return redirect(url_for('signin'))
 
     if request.method == 'POST':
-        nombre = request.form['recipe-name']
-        descripcion = request.form['recipe-description']
+        nombre = request.form.get('recipe-name')
+        if not nombre:
+            return 'El nombre de la receta es obligatorio', 400
+        descripcion = request.form.get('recipe-description')
+        if not descripcion:
+            return 'La descripción de la receta es obligatoria', 400
         tiempo_preparacion = request.form['prep-time']
         dificultad = request.form['difficulty']
         categoria_id = request.form['category']
