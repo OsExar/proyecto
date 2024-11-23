@@ -197,6 +197,19 @@ def edit_profile():
 
     user = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])[0]
     return render_template('edit-profile.html', user=user)
-
+# Ruta para visualizar el perfil del usuario
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        flash('Please log in to view your profile.')
+        return redirect(url_for('signin'))
+    
+    user = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])
+    if not user:
+        flash('User not found.', 'danger')
+        return redirect(url_for('index'))
+    
+    user = user[0]  # Extraer el usuario de la lista
+    return render_template('profile.html', user=user)
 if __name__ == '__main__':
     app.run(debug=True)

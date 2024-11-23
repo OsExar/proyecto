@@ -1,59 +1,47 @@
+
 {% extends "layout.html" %}
-
-{% block title %}Add Recipe{% endblock %}
-
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Add a New Recipe</h2>
-    <form action="{{ url_for('add') }}" method="POST">
-        <!-- Nombre -->
+    <h2>Add New Recipe</h2>
+    <form action="{{ url_for('add_recipe') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Recipe Name: <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter the recipe name" required>
+            <label for="recipe_name">Recipe Name:</label>
+            <input type="text" class="form-control" id="recipe_name" name="recipe_name" required>
         </div>
-        <!-- Categoría -->
         <div class="form-group">
-            <label for="category">Category: <span class="text-danger">*</span></label>
-            <select class="form-control" id="category" name="category" required>
-                <option value="" disabled selected>Choose a category</option>
-                {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.nombre }}</option>
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category">
+                <option value="" selected>Choose a category</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria['id'] }}">{{ categoria['nombre'] }}</option>
                 {% endfor %}
             </select>
         </div>
-        <!-- Descripción -->
         <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Add a short description of the recipe"></textarea>
+            <label for="ingredients">Description:</label>
+            <textarea class="form-control" id="instructions" name="instructions" rows="5" required></textarea>
         </div>
-        <!-- Tiempo de preparación -->
         <div class="form-group">
-            <label for="time">Preparation Time (minutes): <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="time" name="time" placeholder="Enter preparation time in minutes" required>
+            <label for="cooking_time">Cooking Time (in minutes):</label>
+            <input type="number" class="form-control" id="cooking_time" name="cooking_time" required>
         </div>
-        <!-- Dificultad -->
         <div class="form-group">
-            <label for="difficulty">Difficulty Level: <span class="text-danger">*</span></label>
+            <label for="difficulty">Difficulty Level:</label>
             <select class="form-control" id="difficulty" name="difficulty" required>
-                <option value="" disabled selected>Choose difficulty level</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
             </select>
         </div>
-        <!-- Imagen (URL) -->
         <div class="form-group">
-            <label for="image">Recipe Image URL:</label>
-            <input type="url" class="form-control" id="image" name="image" placeholder="Enter image URL">
+            <label for="additional_notes">Comments:</label>
+            <textarea class="form-control" id="additional_notes" name="additional_notes" rows="4"></textarea>
         </div>
-        <!-- Notas -->
         <div class="form-group">
-            <label for="notes">Additional Notes:</label>
-            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Add any additional tips or notes about the recipe"></textarea>
+            <label for="image">Upload Recipe Image:</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept=".jpg, .jpeg, .png, .gif">
         </div>
-        <!-- Botones -->
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="{{ url_for('add_category') }}" class="btn btn-secondary">Add Category</a>
+        <button type="submit" class="btn btn-primary">Add Recipe</button>
     </form>
 </div>
 {% endblock %}

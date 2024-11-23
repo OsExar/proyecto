@@ -1,94 +1,97 @@
-<!-- Sign In Section Begin -->
-<div class="signin">
-    <div class="signin__warp">
-        <div class="signin__content">
-            <div class="signin__logo">
-                <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='img/sign-in-logo.png') }}" alt="Logo"/>
-                </a>
-            </div>
-            <p>Welcome to Recipy! Please sign up or log in to continue.</p>
-            <div class="signin__form">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                            Sign Up
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                            Sign In
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <!-- Registro -->
-                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                        <div class="signin__form__text">
-                            <p>Sign up with your social network:</p>
-                            <div class="signin__form__signup__social">
-                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                <a class="google" href="#"><i class="fa fa-google"></i></a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Recipy</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Sign In Section Begin -->
+    <div class="signin">
+        <div class="signin__warp">
+            <div class="signin__content">
+                <div class="signin__logo">
+                    <a href="/index">
+                        <img src="/static/img/sign-in-logo.png" alt="Logo">
+                    </a>
+                </div>
+                <p>Welcome to Recipy! Please sign up or log in to continue.</p>
+                <div class="signin__form">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                Sign Up
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                                Sign In
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Registro -->
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="signin__form__text">
+                                <p>Sign up with your social network:</p>
+                                <div class="signin__form__signup__social">
+                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                    <a class="google" href="#"><i class="fa fa-google"></i></a>
+                                </div>
+                                <div class="divide">or</div>
+                                <form action="/" method="POST">
+                                    <input hidden name="signup" type="text" value="1">
+                                    <input name="signup-username" placeholder="User Name*" required type="text">
+                                    <input name="signup-password" placeholder="Password" required type="password">
+                                    <input name="signup-confirm-password" placeholder="Confirm Password" required type="password">
+                                    <input name="signup-email" placeholder="Email Address" required type="email">
+                                    <textarea name="signup-biografia" placeholder="Biografía" rows="4"></textarea>
+                                    <label>
+                                        <input name="signup-mostrarIngredientes" type="checkbox"> Mostrar ingredientes
+                                    </label>
+                                    <label>
+                                        <input required type="checkbox"> I agree to the terms & conditions
+                                    </label>
+                                    <button class="site-btn" type="submit">Register Now</button>
+                                </form>
+                                <!-- Flash Messages -->
+                                <ul class="flash-messages">
+                                    <li>Please fill in all the required fields.</li>
+                                </ul>
                             </div>
-                            <div class="divide">or</div>
-                            <form action="/" method="POST">
-                                <input hidden name="signup" type="text" value="1"/>
-                                <input name="signup-username" placeholder="User Name*" required type="text"/>
-                                <input name="signup-password" placeholder="Password" required type="password"/>
-                                <input name="signup-confirm-password" placeholder="Confirm Password" required type="password"/>
-                                <input name="signup-email" placeholder="Email Address" required type="email"/>
-                                <textarea name="signup-biografia" placeholder="Biografía" rows="4"></textarea>
-                                <label>
-                                    <input name="signup-mostrarIngredientes" type="checkbox"/> Mostrar ingredientes
-                                </label>
-                                <label>
-                                    <input name="terms" required type="checkbox"/> I agree to the terms & conditions
-                                </label>
-                                <button class="site-btn" type="submit">Register Now</button>
-                            </form>
-                            <!-- Flash Messages -->
-                            {% with messages = get_flashed_messages() %}
-                                {% if messages %}
-                                    <ul class="flash-messages">
-                                        {% for message in messages %}
-                                            <li>{{ message }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            {% endwith %}
                         </div>
-                    </div>
-                    <!-- Inicio de Sesión -->
-                    <div class="tab-pane" id="tabs-2" role="tabpanel">
-                        <div class="signin__form__text">
-                            <p>Sign in with your social network:</p>
-                            <div class="signin__form__signup__social">
-                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                <a class="google" href="#"><i class="fa fa-google"></i></a>
+                        <!-- Inicio de Sesión -->
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="signin__form__text">
+                                <p>Sign in with your social network:</p>
+                                <div class="signin__form__signup__social">
+                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                    <a class="google" href="#"><i class="fa fa-google"></i></a>
+                                </div>
+                                <div class="divide">or</div>
+                                <form action="/" method="POST">
+                                    <input name="signin-username" placeholder="User Name*" required type="text">
+                                    <input name="signin-password" placeholder="Password" required type="password">
+                                    <button class="site-btn" name="signin" type="submit">Sign In</button>
+                                </form>
+                                <!-- Flash Messages -->
+                                <ul class="flash-messages">
+                                    <li>Invalid username or password.</li>
+                                </ul>
                             </div>
-                            <div class="divide">or</div>
-                            <form action="/" method="POST">
-                                <input name="signin-username" placeholder="User Name*" required type="text"/>
-                                <input name="signin-password" placeholder="Password" required type="password"/>
-                                <button class="site-btn" name="signin" type="submit">Sign In</button>
-                            </form>
-                            <!-- Flash Messages -->
-                            {% with messages = get_flashed_messages() %}
-                                {% if messages %}
-                                    <ul class="flash-messages">
-                                        {% for message in messages %}
-                                            <li>{{ message }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            {% endwith %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Sign In Section End -->
+    <!-- Sign In Section End -->
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>
