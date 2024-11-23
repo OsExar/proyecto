@@ -1,121 +1,33 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Home - Recipy
-{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-<!-- Hero Section Begin -->
-<section class="hero">
-    <div class="hero__slider owl-carousel">
-        <div class="hero__item">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-6 p-0">
-                        <div class="hero__inside__item hero__inside__item--wide set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-1.jpg') }}">
-                            <div class="hero__inside__item__text">
-                                <div class="hero__inside__item--meta">
-                                    <span>08</span>
-                                    <p>Aug</p>
-                                </div>
-                                <div class="hero__inside__item--text">
-                                    <ul class="label">
-                                        <li><a href="{{ url_for('categories_grid') }}">Categories Grid</a></li>
-                                        <li>Vegan</li>
-                                        <li>Desserts</li>
-                                    </ul>
-                                    <h4>Vegan White Peach Mug Cobbler With Cardamom</h4>
-                                    <ul class="widget">
-                                        <li>by <span>Admin</span></li>
-                                        <li>3 min read</li>
-                                        <li>20 Comment</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 p-0">
-                        <div class="hero__inside__item hero__inside__item--small set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-2.jpg') }}">
-                            <div class="hero__inside__item__text">
-                                <div class="hero__inside__item--meta">
-                                    <span>08</span>
-                                    <p>Aug</p>
-                                </div>
-                                <div class="hero__inside__item--text">
-                                    <h5>How to Make a Milkshake With Any Ice Cream...</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hero__inside__item hero__inside__item--small set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-3.jpg') }}">
-                            <div class="hero__inside__item__text">
-                                <div class="hero__inside__item--meta">
-                                    <span>08</span>
-                                    <p>Aug</p>
-                                </div>
-                                <div class="hero__inside__item--text">
-                                    <h5>Vintage Copper Preserve Pan with Brass Handles</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 p-0">
-                        <div class="hero__inside__item set-bg" data-setbg="{{ url_for('static', filename='img/hero/hero-4.jpg') }}">
-                            <div class="hero__inside__item__text">
-                                <div class="hero__inside__item--meta">
-                                    <span>08</span>
-                                    <p>Aug</p>
-                                </div>
-                                <div class="hero__inside__item--text">
-                                    <h5>Marinated Lentil Salad with Zucchini and Tomatoes</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Explore Categories</h2>
+    <!-- Mostrar botón de inicio de sesión si el usuario no está autenticado -->
+    {% if not session.get('user_id') %}
+    <div class="text-center mb-4">
+        <a href="{{ url_for('signin') }}" class="btn btn-primary">Sign In</a>
     </div>
-</section>
-<!-- Hero Section End -->
+    {% endif %}
 
-<!-- Categories Section Begin -->
-<section class="categories spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-1.jpg') }}">
-                    <div class="categories__hover__text">
-                        <h5>Dinner</h5>
-                        <p>28 articles</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-2.jpg') }}">
-                    <div class="categories__hover__text">
-                        <h5>Vegan</h5>
-                        <p>15 articles</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-3.jpg') }}">
-                    <div class="categories__hover__text">
-                        <h5>Desserts</h5>
-                        <p>20 articles</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="categories__item set-bg" data-setbg="{{ url_for('static', filename='img/categories/cat-4.jpg') }}">
-                    <div class="categories__hover__text">
-                        <h5>Weightloss</h5>
-                        <p>12 articles</p>
-                    </div>
+    <div class="row">
+        <!-- Mostrar las categorías -->
+        {% for category in categories %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <a href="{{ url_for('category_view', category_id=category.id) }}">
+                    <img src="{{ url_for('static', filename='img/categories/' ~ category.nombre | lower ~ '.jpg') }}" class="card-img-top" alt="{{ category.nombre }}">
+                </a>
+                <div class="card-body text-center">
+                    <a href="{{ url_for('category_view', category_id=category.id) }}">
+                        <h5 class="card-title">{{ category.nombre }}</h5>
+                    </a>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-</section>
-<!-- Categories Section End -->
+</div>
 {% endblock %}

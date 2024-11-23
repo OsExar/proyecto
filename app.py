@@ -1,29 +1,16 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from cs50 import SQL
 
+# Configuración de la app
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Configurar el directorio para subir imágenes
-UPLOAD_FOLDER = 'static/uploads/'
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)  # Crear la carpeta si no existe
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # Límite de 16MB
-app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
-
-# Base de datos
+# Configuración de la base de datos
 db = SQL("sqlite:///RecetasDB.db")
 
-# Función para verificar si el archivo es válido
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# Ruta para el inicio de sesión
+# Ruta para el inicio de sesión y registro
 @app.route('/', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
@@ -33,28 +20,35 @@ def signin():
             email = request.form['signup-email']
             contraseña = request.form['signup-password']
             confirm_password = request.form['signup-confirm-password']
+            aceptar_terminos = request.form.get('terms')
+
+            # Validar que se acepten los términos y condiciones
+            if not aceptar_terminos:
+                flash('You must agree to the terms and conditions to register.')
+                return redirect(url_for('signin'))
 
             # Validar que las contraseñas coincidan
             if contraseña != confirm_password:
-                flash('Las contraseñas no coinciden.')
+                flash('Passwords do not match.')
                 return redirect(url_for('signin'))
 
             # Verificar si el email ya está registrado
             existing_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
             if existing_user:
-                flash('El correo ya está registrado.')
+                flash('Email is already registered.')
                 return redirect(url_for('signin'))
 
+            # Crear el nuevo usuario
             hashed_password = generate_password_hash(contraseña)
             try:
                 db.execute("INSERT INTO Usuario (nombre, email, contraseña) VALUES (?, ?, ?)", nombre, email, hashed_password)
                 new_user = db.execute("SELECT * FROM Usuario WHERE email = ?", email)
                 session['user_id'] = new_user[0]['id']
                 session['username'] = new_user[0]['nombre']
-                flash('Registro exitoso. Has iniciado sesión automáticamente.')
+                flash('Registration successful. You are now logged in.')
                 return redirect(url_for('index'))
             except Exception as e:
-                flash('Ocurrió un error durante el registro.')
+                flash('An error occurred during registration.')
                 return redirect(url_for('signin'))
 
         # Inicio de sesión
@@ -65,10 +59,10 @@ def signin():
             if user and check_password_hash(user[0]['contraseña'], contraseña):
                 session['user_id'] = user[0]['id']
                 session['username'] = user[0]['nombre']
-                flash('Inicio de sesión exitoso.')
+                flash('Logged in successfully.')
                 return redirect(url_for('index'))
             else:
-                flash('Nombre de usuario o contraseña incorrectos.')
+                flash('Invalid username or password.')
 
     return render_template('signin.html')
 
@@ -76,46 +70,26 @@ def signin():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
-    flash('Has cerrado sesión correctamente.')
+    flash('Logged out successfully.')
     return redirect(url_for('signin'))
 
 # Ruta para el dashboard
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('signin'))
-    return f"Bienvenido, {session['username']}!"
-
-# Ruta para la página principal
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    categories = db.execute("SELECT * FROM Categoria")
+    return render_template('index.html', categories=categories)
 
-# Ruta para la vista de categorías en grid
+# Ruta para el grid de categorías
 @app.route('/categories-grid')
 def categories_grid():
-    return render_template('categories-grid.html')
+    categories = db.execute("SELECT * FROM Categoria")
+    return render_template('categories-grid.html', categories=categories)
 
-# Ruta para la vista de categorías en lista
-@app.route('/categories-list')
-def categories_list():
-    return render_template('categories-list.html')
-
-# Ruta para un solo post
-@app.route('/single-post')
-def single_post():
-    return render_template('single-post.html')
-
-# Ruta para la tipografía
-@app.route('/typography')
-def typography():
-    return render_template('typography.html')
-
-# Ruta para añadir una receta
+# Ruta para añadir recetas
 @app.route('/add', methods=['GET', 'POST'])
-def add_recipe():
+def add():
     if 'user_id' not in session:
-        flash('Debes iniciar sesión para añadir una receta.')
+        flash('Please log in to add a recipe.')
         return redirect(url_for('signin'))
 
     if request.method == 'POST':
@@ -126,33 +100,103 @@ def add_recipe():
         categoria_id = request.form['category']
         comentarios = request.form['additional-notes']
 
-        # Verificar si se sube una imagen
-        imagen = request.files['recipe-image']
-        if imagen and allowed_file(imagen.filename):
-            filename = secure_filename(imagen.filename)
-            imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            imagen_ruta = os.path.join('uploads', filename)
-        else:
-            imagen_ruta = None
+        db.execute(
+            "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, autor_id, categoria_id, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            nombre, descripcion, tiempo_preparacion, dificultad, session['user_id'], categoria_id, comentarios
+        )
+        flash('Recipe added successfully!')
+        return redirect(url_for('index'))
 
-        # Insertar en la base de datos
-        try:
-            db.execute(
-                "INSERT INTO Receta (nombre, descripcion, tiempoPreparacion, dificultad, puntuacion, autor_id, categoria_id, comentarios, imagenReceta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                nombre, descripcion, tiempo_preparacion, dificultad, 0, session['user_id'], categoria_id, comentarios, imagen_ruta
-            )
-            flash('Receta añadida exitosamente.')
-            return redirect(url_for('index'))
-        except Exception as e:
-            flash('Ocurrió un error al añadir la receta.')
-            return redirect(url_for('add_recipe'))
+    categories = db.execute("SELECT * FROM Categoria")
+    return render_template('add.html', categories=categories)
 
-    return render_template('add.html')
+# Ruta para añadir categorías
+@app.route('/add-category', methods=['GET', 'POST'])
+def add_category():
+    if request.method == 'POST':
+        nombre = request.form.get('name')
+        if not nombre:
+            flash('Category name is required.')
+            return redirect(url_for('add_category'))
 
-# Ruta para la página de inicio de sesión
-@app.route('/signin')
-def signin_page():
-    return render_template('signin.html')
+        db.execute("INSERT INTO Categoria (nombre) VALUES (?)", nombre)
+        flash('Category added successfully.')
+        return redirect(url_for('categories_grid'))
+
+    return render_template('add-category.html')
+
+# Ruta para visualizar una receta específica
+@app.route('/single-post/<int:recipe_id>')
+def single_post(recipe_id):
+    recipe = db.execute("SELECT * FROM Receta WHERE id = ?", recipe_id)
+    if not recipe:
+        flash('Recipe not found.', 'danger')
+        return redirect(url_for('index'))
+    return render_template('single-post.html', recipe=recipe[0])
+
+# Ruta para mostrar categorías en lista
+@app.route('/categories-list')
+def categories_list():
+    categories = db.execute("SELECT * FROM Categoria")
+    return render_template('categories-list.html', categories=categories)
+
+# Ruta para visualizar recetas por categoría
+@app.route('/category/<int:category_id>')
+def category_view(category_id):
+    # Obtener la categoría
+    category = db.execute("SELECT * FROM Categoria WHERE id = ?", category_id)
+    if not category:
+        flash('Category not found.', 'danger')
+        return redirect(url_for('index'))
+
+    # Obtener las recetas de esa categoría
+    recipes = db.execute("SELECT * FROM Receta WHERE categoria_id = ?", category_id)
+    category_name = category[0]['nombre']
+
+    return render_template('category_view.html', recipes=recipes, category_name=category_name)
+
+# Ruta para buscar recetas o categorías
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('q', '').strip()
+    if not query:
+        flash('Please enter a search term.', 'warning')
+        return redirect(url_for('index'))
+
+    recipes = db.execute(
+        "SELECT * FROM Receta WHERE nombre LIKE ? OR descripcion LIKE ?",
+        f'%{query}%', f'%{query}%'
+    )
+    categories = db.execute(
+        "SELECT * FROM Categoria WHERE nombre LIKE ?",
+        f'%{query}%'
+    )
+
+    return render_template('search_results.html', recipes=recipes, categories=categories)
+
+# Ruta para editar el perfil del usuario
+@app.route('/edit-profile', methods=['GET', 'POST'])
+def edit_profile():
+    if 'user_id' not in session:
+        flash('Please log in to edit your profile.')
+        return redirect(url_for('signin'))
+
+    if request.method == 'POST':
+        nombre = request.form.get('name')
+        email = request.form.get('email')
+        biografia = request.form.get('biografia')
+        mostrar_ingredientes = request.form.get('mostrar_ingredientes') == 'on'
+
+        db.execute(
+            "UPDATE Usuario SET nombre = ?, email = ?, biografia = ?, mostrarIngredientes = ? WHERE id = ?",
+            nombre, email, biografia, mostrar_ingredientes, session['user_id']
+        )
+        session['username'] = nombre
+        flash('Profile updated successfully!')
+        return redirect(url_for('index'))
+
+    user = db.execute("SELECT * FROM Usuario WHERE id = ?", session['user_id'])[0]
+    return render_template('edit-profile.html', user=user)
 
 if __name__ == '__main__':
     app.run(debug=True)

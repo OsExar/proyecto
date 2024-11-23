@@ -1,17 +1,10 @@
-{% extends "layout.html" %}
-
-{% block title %}
-Sign In - Recipy
-{% endblock %}
-
-{% block content %}
 <!-- Sign In Section Begin -->
 <div class="signin">
     <div class="signin__warp">
         <div class="signin__content">
             <div class="signin__logo">
                 <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='img/siign-in-logo.png') }}" alt="Logo"/>
+                    <img src="{{ url_for('static', filename='img/sign-in-logo.png') }}" alt="Logo"/>
                 </a>
             </div>
             <p>Welcome to Recipy! Please sign up or log in to continue.</p>
@@ -39,7 +32,7 @@ Sign In - Recipy
                                 <a class="google" href="#"><i class="fa fa-google"></i></a>
                             </div>
                             <div class="divide">or</div>
-                            <form action="{{ url_for('signin') }}" enctype="multipart/form-data" method="POST">
+                            <form action="/" method="POST">
                                 <input hidden name="signup" type="text" value="1"/>
                                 <input name="signup-username" placeholder="User Name*" required type="text"/>
                                 <input name="signup-password" placeholder="Password" required type="password"/>
@@ -50,7 +43,7 @@ Sign In - Recipy
                                     <input name="signup-mostrarIngredientes" type="checkbox"/> Mostrar ingredientes
                                 </label>
                                 <label>
-                                    <input required type="checkbox"/> I agree to the terms & conditions
+                                    <input name="terms" required type="checkbox"/> I agree to the terms & conditions
                                 </label>
                                 <button class="site-btn" type="submit">Register Now</button>
                             </form>
@@ -76,7 +69,7 @@ Sign In - Recipy
                                 <a class="google" href="#"><i class="fa fa-google"></i></a>
                             </div>
                             <div class="divide">or</div>
-                            <form action="{{ url_for('signin') }}" method="POST">
+                            <form action="/" method="POST">
                                 <input name="signin-username" placeholder="User Name*" required type="text"/>
                                 <input name="signin-password" placeholder="Password" required type="password"/>
                                 <button class="site-btn" name="signin" type="submit">Sign In</button>
@@ -89,7 +82,7 @@ Sign In - Recipy
                                             <li>{{ message }}</li>
                                         {% endfor %}
                                     </ul>
-                                {% endif %} 
+                                {% endif %}
                             {% endwith %}
                         </div>
                     </div>
@@ -99,4 +92,3 @@ Sign In - Recipy
     </div>
 </div>
 <!-- Sign In Section End -->
-{% endblock %}
